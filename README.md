@@ -21,7 +21,13 @@ There are two possible file formats:
    Use the "New dictionary" feature in Plover to create one, or "Save dictionary as..." feature
    to convert from other dictionary formats.
 
-   Note: the file size is larger than the size of a JSON dictionary.
+   **Note**:
+
+   * The file size is larger than the size of a JSON dictionary.
+   * When an entry in the file on the disk is changed, it's automatically updated into Plover.
+   * When the dictionary is deleted on disk, attempt to modify the dictionary in Plover
+   will cause "attempt to write a readonly database" error.
+   * It's possible to have additional columns for auxiliary entries, as long as the dictionary is read-only.
 
 * JSON: stored as plain JSON file on disk. `.jssql` extension.
 
