@@ -97,7 +97,8 @@ class SQLiteDictionaryBase(StenoDictionary):
 	@with_lock
 	def update_str(self, data: Iterable[Tuple[str, str]])->None:
 		self._cursor.executemany(
-				"replace into dict values (:0, :1, length(:0)-length(replace(:0, '/', ''))+1)", data)
+				"replace into dict (outline, translation, length) "
+				"values (:0, :1, length(:0)-length(replace(:0, '/', ''))+1)", data)
 		self._longest_key=self._compute_longest_key_unlocked()
 
 	def update(self, *args)->None:
@@ -115,7 +116,7 @@ class SQLiteDictionaryBase(StenoDictionary):
 
 	@with_lock
 	def __setitem__(self, outline: Outline, translation: str)->None:
-		self._cursor.execute("replace into dict values (?, ?, ?)",
+		self._cursor.execute("replace into dict (outline, translation, length) values (?, ?, ?)",
 				(outline_to_str(outline), translation, len(outline)))
 		self._longest_key=self._compute_longest_key_unlocked()
 
