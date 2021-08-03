@@ -26,8 +26,8 @@ There are two possible file formats:
    * If there's a table named `readonly` (the content doesn't matter), the dictionary will be
    considered read-only.
 
-   Because of [a Plover bug](https://github.com/openstenoproject/plover/issues/1399), modifying the
-   dictionary file and reloading the dictionary in Plover might not update the read-only status.
+      Because of [a Plover bug](https://github.com/openstenoproject/plover/issues/1399), modifying the
+      dictionary file and reloading the dictionary in Plover might not update the read-only status.
 
    * The file size is larger than the size of a JSON dictionary.
    * When an entry in the file on the disk is changed, it's automatically updated into Plover.
