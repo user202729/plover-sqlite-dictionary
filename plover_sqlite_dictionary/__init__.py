@@ -17,9 +17,6 @@ def outline_to_str(outline: Outline)->str:
 def str_to_outline(outline_str: str)->Outline:
 	return tuple(outline_str.split("/"))
 
-def count_str_outline_len(outline_str: str)->int:
-	return outline_str.count("/")+1
-
 F=TypeVar("F", bound=Callable)
 def with_lock(f: F)->F:
 	@functools.wraps(f)
@@ -99,10 +96,8 @@ class SQLiteDictionaryBase(StenoDictionary):
 
 	@with_lock
 	def update_str(self, data: Iterable[Tuple[str, str]])->None:
-		self._cursor.executemany("replace into dict values (?, ?, ?)", (
-			(outline, translation, count_str_outline_len(outline))
-			for outline, translation in data
-			))
+		self._cursor.executemany(
+				"replace into dict values (:0, :1, length(:0)-length(replace(:0, '/', ''))+1)", data)
 		self._longest_key=self._compute_longest_key_unlocked()
 
 	def update(self, *args)->None:
