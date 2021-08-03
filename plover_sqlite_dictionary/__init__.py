@@ -171,8 +171,11 @@ class SQLiteDictionary(SQLiteDictionaryBase):
 		if self.path is None:  # type: ignore
 			path_was_none=True
 			self.path=filename
-		self._connect(filename)
-		self._longest_key=self.compute_longest_key()
+		with self._lock:
+			self._connect_unlocked(filename)
+			self._longest_key=self._compute_longest_key_unlocked()
+			if [*self._cursor.execute('select * from sqlite_master where type="table" and name="readonly"')]:
+				self.readonly=True
 		if path_was_none:
 			self.path=None  # type: ignore
 
