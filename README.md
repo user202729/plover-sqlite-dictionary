@@ -33,7 +33,9 @@ There are two possible file formats:
    * When an entry in the file on the disk is changed, it's automatically updated into Plover.
    * When the dictionary is deleted on disk, attempt to modify the dictionary in Plover
    will cause "attempt to write a readonly database" error; otherwise, the dictionary remains usable.
-   * It's possible to have additional columns for auxiliary entries, as long as the dictionary is read-only.
+   * It's possible to have additional columns for auxiliary entries if:
+      * There's no attempt to modify the dictionary, or
+	  * All the additional columns have default values set (or default to null).
 
 * JSON: stored as plain JSON file on disk. `.jssql` extension.
 
